@@ -11,13 +11,13 @@ touch "$FILE"
 
 echo -e "\nNetwork monitoring HAS BEEN started at $(date +"%Y-%m-%d %H:%M:%S")" >> "$FILE"
 echo -e "\nNetwork monitoring HAS BEEN started at $(date +"%Y-%m-%d %H:%M:%S")"
-cleanup() {
+on_exit() {
     echo -e "\nNetwork monitoring HAS BEEN stopped at $(date +"%Y-%m-%d %H:%M:%S")" >> $FILE
     echo -e "\nNetwork monitoring HAS BEEN stopped at $(date +"%Y-%m-%d %H:%M:%S")"
     exit 0
 }
 
-trap cleanup SIGINT
+trap on_exit SIGINT
 
 while true; do
     echo "**************************************************" >> $FILE
