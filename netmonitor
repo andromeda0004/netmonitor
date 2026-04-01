@@ -1,13 +1,27 @@
 #!/bin/bash
-SPOT="google.com"
-FILE="net_status.log"
-INTERVAL="10"
+TARGET_SPOT="google.com"
+LOGFOLDER="Net_Health_Logs"
+INTERVAL="5"
+mkdir -p "$LOGFOLDER"
+
+CURRSESSIONDATE=$(date+ "%Y-%m-%d %H:%M:%S")
+$FILE="$LOGDIR/log_$CURRSESSIONDATE.log"
+
 touch $FILE
-echo "Network monitoring started at $(date +"%Y-%m-%d %H:%M:%S")" >> $FILE
+
+echo "Network monitoring HAS BEEN started at $(date +"%Y-%m-%d %H:%M:%S")" >> $FILE
+
+cleanup() {
+    echo "\n Network monitoring HAS BEEN stopped at $(date +"%Y-%m-%d %H:%M:%S")" >> $FILE
+    exit 0
+}
+
+trap cleanup SIGNINT
+
 while true; do
     echo "**************************************************" >> $FILE
     echo "time during ping: $(date +"%Y-%m-%d %H:%M:%S")" >> $FILE
-    ping -c 3 -W 2 "$SPOT" >> "$FILE" 2>&1
+    ping -c 3 -W 2 "$TARGET_SPOT" >> "$FILE" 2>&1
 
     if [[ $? -eq 0 ]]; then
         echo "Reachable" >> "$FILE"
