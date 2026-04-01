@@ -1,0 +1,18 @@
+#!/bin/bash
+SPOT="google.com"
+FILE="net_status.log"
+INTERVAL="10"
+touch $FILE
+echo "Network monitoring started at $(date +"%Y-%m-%d %H:%M:%S")" >> $FILE
+while true; do
+    echo "**************************************************" >> $FILE
+    echo "time during ping: $(date +"%Y-%m-%d %H:%M:%S")" >> $FILE
+    ping -c 3 -W 2 "$SPOT" >> "$FILE" 2>&1
+
+    if [[ $? -eq 0 ]]; then
+        echo "Reachable" >> "$FILE"
+    else
+        echo "Unreachable" >> "$FILE"
+    fi
+    sleep "$INTERVAL"
+done
